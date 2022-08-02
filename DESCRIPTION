@@ -1,6 +1,6 @@
 Package: PeptideLib
 Title: An R package to create an combinatorial peptide library
-Version: 0.0.9000
+Version: 0.0.9001
 Authors@R: 
     person("Rico", "Derks", , "r.j.e.derks@lumc.nl", role = c("cre", "aut"))
 Description: An R package to create an combinatorial peptide library. The

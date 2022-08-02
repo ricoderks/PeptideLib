@@ -20,6 +20,10 @@ app_ui <- function(request) {
         title = "Peptide",
         mod_peptide_ui(id = "peptide")
       ),
+      tabPanel(
+        title = "Settings",
+        mod_settings_ui(id = "settings")
+      ),
       navbarMenu(
         title = "Help",
         tabPanel(

@@ -15,7 +15,10 @@ mod_help_ui <- function(id){
   tagList(
     fluidPage(
       h3("Help"),
-      p("Under construction!")
+      HTML("<p>This Shiny app will create a combinatorial peptide library from a peptide sequence you entered.
+        The peptide needs to have a certain format. It should contain at least 2 X's separated by other
+        amino acids, e.g. PTEDAV<b>X</b>PP<b>X</b>ELLK. The X will be replaced by amino acids and the app will
+        generate all possible solutions.</p> ")
     )
   )
 }

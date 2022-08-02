@@ -17,6 +17,7 @@ mod_peptide_ui <- function(id){
              style = "color:red"),
     textInput(inputId = ns("peptide_sequence"),
               label = "Peptide sequence: "),
+    htmlOutput(outputId = ns("amino_acids")),
     hr(),
     htmlOutput(outputId = ns("peptide_parts")),
     uiOutput(outputId = ns("peptide_result"))
@@ -27,18 +28,15 @@ mod_peptide_ui <- function(id){
 #'
 #' @noRd
 #'
+#' @param r reactiveValue to keep track off everything
+#'
 #' @importFrom openxlsx write.xlsx
 #'
 #' @author Rico Derks
 #'
-mod_peptide_server <- function(id){
+mod_peptide_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
-
-    # keep track of all variables
-    r <- reactiveValues(message = NULL,
-                        peptide_sequence = NULL,
-                        all_peptides = NULL)
 
     # show the peptide sequence in parts
     output$peptide_parts <- renderUI({
@@ -83,6 +81,13 @@ mod_peptide_server <- function(id){
                    file = file)
       }
     )
+
+    # show which amino acids will be used
+    output$amino_acids <- renderUI({
+      req(r$amino_acids)
+
+      p(paste0("Amino acids used for X: ", paste0(r$amino_acids, collapse = "")))
+    })
 
     # show messages
     output$message <- renderUI({

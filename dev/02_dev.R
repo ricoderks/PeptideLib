@@ -21,6 +21,7 @@ attachment::att_amend_desc()
 ## Create a module infrastructure in R/
 golem::add_module(name = "help", with_test = TRUE) # Name of the module
 golem::add_module(name = "about", with_test = TRUE) # Name of the module
+golem::add_module(name = "settings", with_test = TRUE) # Name of the module
 golem::add_module(name = "peptide", with_test = TRUE) # Name of the module
 
 ## Add helper functions ----
