@@ -21,7 +21,7 @@
 golem::fill_desc(
   pkg_name = "PeptideLib", # The Name of the package containing the App
   pkg_title = "An R package to create an combinatorial peptide library", # The Title of the package containing the App
-  pkg_description = "An R package to create an combinatorial peptide library", # The Description of the package containing the App
+  pkg_description = "An R package to create an combinatorial peptide library. The results are exported to an Excel file.", # The Description of the package containing the App
   author_first_name = "Rico", # Your First Name
   author_last_name = "Derks", # Your Last Name
   author_email = "r.j.e.derks@lumc.nl", # Your Email
