@@ -4,6 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @importFrom utils packageVersion
+#' @importFrom waiter useWaiter
 #' @noRd
 #'
 #' @author Rico Derks
@@ -12,6 +13,12 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+    waiter::useWaiter(),
+    tags$style(
+      ".waiter-overlay-content{
+      color: black;
+    }"
+    ),
     # Your application UI logic
     navbarPage(
       title = paste0("PeptideLib | v", utils::packageVersion("PeptideLib")),

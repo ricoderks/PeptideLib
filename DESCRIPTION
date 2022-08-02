@@ -1,6 +1,6 @@
 Package: PeptideLib
 Title: An R package to create an combinatorial peptide library
-Version: 0.0.9004
+Version: 0.1.0
 Authors@R: 
     person("Rico", "Derks", , "r.j.e.derks@lumc.nl", role = c("cre", "aut"))
 Description: An R package to create an combinatorial peptide library. The
@@ -14,7 +14,8 @@ Imports:
     openxlsx,
     sessioninfo,
     shiny (>= 1.7.1),
-    utils
+    utils,
+    waiter
 Suggests: 
     spelling,
     testthat (>= 3.0.0)

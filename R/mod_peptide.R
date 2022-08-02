@@ -31,6 +31,7 @@ mod_peptide_ui <- function(id){
 #' @param r reactiveValue to keep track off everything
 #'
 #' @importFrom openxlsx write.xlsx
+#' @importFrom waiter waiter_show waiter_hide spin_ball transparent
 #'
 #' @author Rico Derks
 #'
@@ -45,9 +46,14 @@ mod_peptide_server <- function(id, r){
       r$peptide_sequence <- input$peptide_sequence
       # get all the peptide sequences
       tryCatch(expr = {
+        # start waiter, set color to null for transparent background
+        waiter::waiter_show(html = tagList(waiter::spin_ball(),
+                                           h3("Loading...")),
+                            color = waiter::transparent(0.5))
         r$all_peptides <- create_peptides(pep_seq = r$peptide_sequence,
                                           aa = r$amino_acids)
         r$message <- NULL
+        waiter::waiter_hide()
 
         # show parts
         p("First part: ", r$all_peptides$first, br(),
