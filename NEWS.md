@@ -1,3 +1,9 @@
+# PeptideLib 0.1.9000
+
+## Add
+
+* Make combinatorial peptide library when peptide sequence pattern is ...X..
+
 # PeptideLib 0.1.0
 
 * First release.
