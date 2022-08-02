@@ -3,14 +3,34 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @importFrom utils packageVersion
 #' @noRd
+#'
+#' @author Rico Derks
+#'
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      h1("PeptideLib")
+    navbarPage(
+      title = paste0("PeptideLib | v", utils::packageVersion("PeptideLib")),
+      id = "navbar",
+      tabPanel(
+        title = "Peptide",
+        p("Hi, there!")
+      ),
+      navbarMenu(
+        title = "Help",
+        tabPanel(
+          title = "Help",
+          mod_help_ui(id = "help")
+        ),
+        tabPanel(
+          title = "About",
+          mod_about_ui(id = "about")
+        )
+      )
     )
   )
 }
@@ -23,6 +43,7 @@ app_ui <- function(request) {
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
+#'
 golem_add_external_resources <- function() {
   add_resource_path(
     "www",

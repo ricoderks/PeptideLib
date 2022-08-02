@@ -10,7 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The goal of `PeptideLib` is to create a combinatorial peptide library
-and export it to excel.
+and export it to an Excel file.
 
 ## Installation
 
