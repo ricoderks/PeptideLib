@@ -1,3 +1,9 @@
+# PeptideLib 0.2.1
+
+## Fix
+
+* Input field wasn't waiting for a button clicked after the first button click.
+
 # PeptideLib 0.2.0
 
 ## Add
