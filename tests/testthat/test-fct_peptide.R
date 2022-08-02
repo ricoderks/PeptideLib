@@ -9,15 +9,15 @@ test_that("input", {
   expect_error(create_peptides(pep_seq = "GASXXPPXXGAS",
                                aa = "GASPVTLINDQKEMHFRYWCZ"),
                regexp = "'aa' contains characters which do not represent an amino acid!")
-  expect_error(create_peptides(pep_seq = "GASXXPPGAS",
+  expect_error(create_peptides(pep_seq = "GAS",
                                aa = "GASPVTLINDQKEMHFRYWC"),
-               regexp = "'pep_seq' doesn't contain the minimum pattern ...X...X...!")
+               regexp = "'pep_seq' doesn't contain the minimum pattern ...X...X... or ...X...!")
   expect_error(create_peptides(pep_seq = "GASXXPPX",
                                aa = "GASPVTLINDQKEMHFRYWC"),
-               regexp = "'pep_seq' doesn't contain the minimum pattern ...X...X...!")
+               regexp = "'pep_seq' doesn't contain the minimum pattern ...X...X... or ...X...!")
   expect_error(create_peptides(pep_seq = "GASXX",
                                aa = "GASPVTLINDQKEMHFRYWC"),
-               regexp = "'pep_seq' doesn't contain the minimum pattern ...X...X...!")
+               regexp = "'pep_seq' doesn't contain the minimum pattern ...X...X... or ...X...!")
 })
 
 test_that("output", {

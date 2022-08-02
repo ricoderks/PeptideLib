@@ -4,6 +4,8 @@
 #' @param pep_seq the peptide sequence.
 #' @param aa which amino acids to use for X.
 #'
+#' @details The peptide sequence should follow the format: ...X..X... or ...X..
+#'
 #' @return A list with all 3 parts and all new combinations.
 #'
 #' @noRd
@@ -30,33 +32,43 @@ create_peptides <- function(pep_seq = NULL, aa = NULL) {
     stop("'aa' contains characters which do not represent an amino acid!")
   }
   # check if peptide sequence is ...X...X... as a minimum
-  if(!grepl(pattern = paste0("^[", all_aa, "]+X{1,}[", all_aa, "]+X{1,}[", all_aa, "]+$"), x = pep_seq)) {
-    stop("'pep_seq' doesn't contain the minimum pattern ...X...X...!")
+  if(!grepl(pattern = paste0("^[", all_aa, "]+X{1,}[", all_aa, "]*X{0,}[", all_aa, "]+$"), x = pep_seq)) {
+    stop("'pep_seq' doesn't contain the minimum pattern ...X...X... or ...X...!")
   }
+
+  # determine how many sites with X's are in the peptide sequence
+  num_x_site <- length(gregexpr(pattern = "[X]+", text = pep_seq)[[1]])
 
   ## split the peptide sequence
   first_part <- gsub(x = pep_seq,
                      pattern = paste0("^([", all_aa, "]*)X*.*$"),
                      replacement = "\\1")
-  middle_part <- gsub(x = pep_seq,
-                      pattern = paste0("^.*X{1,}([", all_aa, "]+)X{1,}.*$"),
-                      replacement = "\\1")
+  # if the format is ...X. there is no middle part
+  if(num_x_site == 2) {
+    middle_part <- gsub(x = pep_seq,
+                        pattern = paste0("^[", all_aa, "]+X{1,}([", all_aa, "]+)X{1,}[", all_aa, "]+$"),
+                        replacement = "\\1")
+  } else {
+    middle_part <- ""
+  }
   # get the last part of the peptide
   last_part <- gsub(x = pep_seq,
                     pattern = paste0("^.*X([", all_aa, "]*)$"),
                     replacement = "\\1")
 
-  # get the first few X's
-  x1 <- gsub(x = pep_seq,
-             pattern = paste0("^[", all_aa, "]*([X]{1,})", middle_part, "([X]{1,})[", all_aa, "]*$"),
-             replacement = "\\1")
-  # get the last few X's
-  x2 <- gsub(x = pep_seq,
-             pattern = paste0("^[", all_aa, "]*([X]{1,})", middle_part, "([X]{1,})[", all_aa, "]*$"),
-             replacement = "\\2")
 
+  # define the pattern
+  x_pattern <- paste0("^[", all_aa, "]*([X]{1,})", middle_part, "([X]{0,})[", all_aa, "]*$")
+  # get the first few X's
+  x1 <- nchar(gsub(x = pep_seq,
+                   pattern = x_pattern,
+                   replacement = "\\1"))
+  # get the last few X's
+  x2 <- nchar(gsub(x = pep_seq,
+                   pattern = x_pattern,
+                   replacement = "\\2"))
   # total number of X's
-  tot_x <- nchar(x1) + nchar(x2)
+  tot_x <- x1 + x2
 
   # initialize amino acid list
   aa_list <- vector(mode = "list", length = tot_x)
@@ -72,17 +84,29 @@ create_peptides <- function(pep_seq = NULL, aa = NULL) {
                                                   stringsAsFactors = FALSE))
 
   # make the sequence for first X('s) en last X('s).
-  all_X_combs <- t(apply(all_X_combs, 1, function(x) {
-    cbind(paste0(x[1:nchar(x1)], collapse = ""),
-          paste0(x[(nchar(x1) + 1):tot_x ], collapse = ""))
-  }))
+  if(num_x_site == 2) {
+    all_X_combs <- t(apply(all_X_combs, 1, function(x) {
+      cbind(paste0(x[1:x1], collapse = ""),
+            paste0(x[(x1 + 1):tot_x ], collapse = ""))
+    }))
+  } else {
+    all_X_combs <- apply(all_X_combs, 1, function(x) {
+      cbind(paste0(x[1:x1], collapse = ""))
+    })
+  }
 
   # make all new peptide sequences and convert to data.frame for writing
-  new_peptide_seq <- data.frame(peptides = paste0(first_part,
-                                                  all_X_combs[, 1],
-                                                  middle_part,
-                                                  all_X_combs[, 2],
-                                                  last_part))
+  if(num_x_site == 2) {
+    new_peptide_seq <- data.frame(peptides = paste0(first_part,
+                                                    all_X_combs[, 1],
+                                                    middle_part,
+                                                    all_X_combs[, 2],
+                                                    last_part))
+  } else {
+    new_peptide_seq <- data.frame(peptides = paste0(first_part,
+                                                    all_X_combs,
+                                                    last_part))
+  }
 
   # return everything as a list
   return(list(first = first_part,

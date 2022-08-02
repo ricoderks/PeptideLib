@@ -17,6 +17,8 @@ mod_peptide_ui <- function(id){
              style = "color:red"),
     textInput(inputId = ns("peptide_sequence"),
               label = "Peptide sequence: "),
+    actionButton(inputId = ns("calculate_peptide"),
+                 label = "Calculate"),
     htmlOutput(outputId = ns("amino_acids")),
     hr(),
     htmlOutput(outputId = ns("peptide_parts")),
@@ -41,7 +43,8 @@ mod_peptide_server <- function(id, r){
 
     # show the peptide sequence in parts
     output$peptide_parts <- renderUI({
-      req(input$peptide_sequence)
+      req(input$peptide_sequence,
+          input$calculate_peptide)
 
       r$peptide_sequence <- input$peptide_sequence
       # get all the peptide sequences
