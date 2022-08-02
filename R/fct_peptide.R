@@ -21,14 +21,11 @@ create_peptides <- function(pep_seq = NULL, aa = NULL) {
   if(is.null(pep_seq)) {
     stop("'pep_seq' needs to be a peptide sequence!")
   }
-
   # check if pep_seq is a correct peptide sequence
   if(!grepl(pattern = paste0("^[", paste0(all_aa, "X"), "]+$"), x = pep_seq)) {
     stop("'pep_seq' contains characters which do not represent a peptide sequence!")
   }
-  if(is.null(aa)) {
-    stop("'aa' needs to contain at least one amino acid!")
-  }
+  # check if aa contains amino acids
   if(!grepl(pattern = paste0("^[", paste0(all_aa, "X"), "]+$"), x = aa)) {
     stop("'aa' contains characters which do not represent an amino acid!")
   }
