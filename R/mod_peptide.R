@@ -43,8 +43,17 @@ mod_peptide_server <- function(id, r){
 
     # show the peptide sequence in parts
     output$peptide_parts <- renderUI({
-      req(input$peptide_sequence,
-          input$calculate_peptide)
+      req(r$all_peptides)
+
+      # show parts
+      p("First part: ", r$all_peptides$first, br(),
+        "Middle part: ", r$all_peptides$middle, br(),
+        "Last part: ", r$all_peptides$last)
+    })
+
+    # check if button is clicked
+    observe({
+      req(input$peptide_sequence)
 
       r$peptide_sequence <- input$peptide_sequence
       # get all the peptide sequences
@@ -58,10 +67,7 @@ mod_peptide_server <- function(id, r){
         r$message <- NULL
         waiter::waiter_hide()
 
-        # show parts
-        p("First part: ", r$all_peptides$first, br(),
-          "Middle part: ", r$all_peptides$middle, br(),
-          "Last part: ", r$all_peptides$last)
+
       },
       error = function(e) {
         r$all_peptides <- NULL
@@ -70,7 +76,8 @@ mod_peptide_server <- function(id, r){
         # make sure nothing is shown here
         return(NULL)
       })
-    })
+    }) |>
+      bindEvent(input$calculate_peptide)
 
     # show result
     output$peptide_result <- renderUI({
