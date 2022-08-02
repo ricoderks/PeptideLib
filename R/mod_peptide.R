@@ -45,7 +45,8 @@ mod_peptide_server <- function(id, r){
       r$peptide_sequence <- input$peptide_sequence
       # get all the peptide sequences
       tryCatch(expr = {
-        r$all_peptides <- create_peptides(pep_seq = r$peptide_sequence)
+        r$all_peptides <- create_peptides(pep_seq = r$peptide_sequence,
+                                          aa = r$amino_acids)
         r$message <- NULL
 
         # show parts

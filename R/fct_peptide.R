@@ -1,7 +1,8 @@
 #' @title Create all possible peptides
 #' @description Create all possible peptides.
 #'
-#' @param pep_seq the peptide sequence
+#' @param pep_seq the peptide sequence.
+#' @param aa which amino acids to use for X.
 #'
 #' @return A list with all 3 parts and all new combinations.
 #'
@@ -9,20 +10,27 @@
 #'
 #' @author Rico Derks
 #'
-create_peptides <- function(pep_seq) {
+create_peptides <- function(pep_seq = NULL, aa = NULL) {
   # define all possible amino acids
   all_aa <- "GASPVTLINDQKEMHFRYWC"
 
-  # amino acids used for X
-  used_aa <- "GASPVTLINDQKEMHFRYW"
+  # create a character vector of the amino acids
+  aa <- paste0(aa, collapse = "")
 
   ## sanity checks
   if(is.null(pep_seq)) {
     stop("'pep_seq' needs to be a peptide sequence!")
   }
+
   # check if pep_seq is a correct peptide sequence
   if(!grepl(pattern = paste0("^[", paste0(all_aa, "X"), "]+$"), x = pep_seq)) {
     stop("'pep_seq' contains characters which do not represent a peptide sequence!")
+  }
+  if(is.null(aa)) {
+    stop("'aa' needs to contain at least one amino acid!")
+  }
+  if(!grepl(pattern = paste0("^[", paste0(all_aa, "X"), "]+$"), x = aa)) {
+    stop("'aa' contains characters which do not represent an amino acid!")
   }
 
   ## split the peptide sequence
@@ -54,7 +62,7 @@ create_peptides <- function(pep_seq) {
 
   # make the amino acid list for each X
   for (a in 1:tot_x) {
-    aa_list[[a]] <- strsplit(x = used_aa,
+    aa_list[[a]] <- strsplit(x = aa,
                              split = "")[[1]]
   }
 
