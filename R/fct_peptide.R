@@ -29,6 +29,10 @@ create_peptides <- function(pep_seq = NULL, aa = NULL) {
   if(!grepl(pattern = paste0("^[", paste0(all_aa, "X"), "]+$"), x = aa)) {
     stop("'aa' contains characters which do not represent an amino acid!")
   }
+  # check if peptide sequence is ...X...X... as a minimum
+  if(!grepl(pattern = paste0("^[", all_aa, "]+X{1,}[", all_aa, "]+X{1,}[", all_aa, "]+$"), x = pep_seq)) {
+    stop("'pep_seq' doesn't contain the minimum pattern ...X...X...!")
+  }
 
   ## split the peptide sequence
   first_part <- gsub(x = pep_seq,
