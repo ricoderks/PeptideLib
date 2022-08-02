@@ -11,6 +11,7 @@ BugReports: https://github.com/ricoderks/PeptideLib/issues
 Imports: 
     config (>= 0.3.1),
     golem (>= 0.3.2),
+    openxlsx,
     sessioninfo,
     shiny (>= 1.7.1),
     utils

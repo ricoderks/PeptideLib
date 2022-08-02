@@ -18,7 +18,7 @@ app_ui <- function(request) {
       id = "navbar",
       tabPanel(
         title = "Peptide",
-        p("Hi, there!")
+        mod_peptide_ui(id = "peptide")
       ),
       navbarMenu(
         title = "Help",

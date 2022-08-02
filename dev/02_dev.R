@@ -21,11 +21,12 @@ attachment::att_amend_desc()
 ## Create a module infrastructure in R/
 golem::add_module(name = "help", with_test = TRUE) # Name of the module
 golem::add_module(name = "about", with_test = TRUE) # Name of the module
+golem::add_module(name = "peptide", with_test = TRUE) # Name of the module
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct("helpers", with_test = TRUE)
-golem::add_utils("helpers", with_test = TRUE)
+golem::add_fct("peptide", with_test = TRUE)
+# golem::add_utils("helpers", with_test = TRUE)
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
