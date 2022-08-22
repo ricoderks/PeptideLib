@@ -1,3 +1,9 @@
+# PeptideLib 0.2.2
+
+## Fix
+
+* Waiter would not stop after wrong sequence was entered (issue #3).
+
 # PeptideLib 0.2.1
 
 ## Fix
