@@ -72,6 +72,8 @@ mod_peptide_server <- function(id, r){
       error = function(e) {
         r$all_peptides <- NULL
         r$message <- "Incorrect peptide sequence!"
+        # stop the waiter when there is an error
+        waiter::waiter_hide()
 
         # make sure nothing is shown here
         return(NULL)
