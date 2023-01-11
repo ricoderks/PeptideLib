@@ -80,31 +80,44 @@ create_peptides <- function(pep_seq = NULL, aa = NULL) {
   }
 
   # create all combinations
-  all_X_combs <- as.matrix.data.frame(expand.grid(aa_list,
-                                                  stringsAsFactors = FALSE))
+  all_X_combs <- expand.grid(aa_list,
+                             stringsAsFactors = FALSE)
 
   # make the sequence for first X('s) en last X('s).
   if(num_x_site == 2) {
-    all_X_combs <- t(apply(all_X_combs, 1, function(x) {
-      cbind(paste0(x[1:x1], collapse = ""),
-            paste0(x[(x1 + 1):tot_x ], collapse = ""))
-    }))
+    # check how many columns there are in part1 and paste multiple columns if needed
+    if(x1 == 1) {
+      part1 <- all_X_combs[, 1:x1]
+    } else {
+      part1 <- do.call(paste, c(all_X_combs[, 1:x1], sep =""))
+    }
+    # check how many columns there are in part2 and paste multiple columns if needed
+    if(tot_x - (x1 + 1) == 0) {
+      part2 <- all_X_combs[, (x1 + 1):tot_x]
+    } else {
+      part2 <- do.call(paste, c(all_X_combs[, (x1 + 1):tot_x], sep =""))
+    }
+
+    all_combs <- cbind(part1, part2)
   } else {
-    all_X_combs <- apply(all_X_combs, 1, function(x) {
-      cbind(paste0(x[1:x1], collapse = ""))
-    })
+    # check how many columns there are in part1 and paste multiple columns if needed
+    if(x1 == 1) {
+      all_combs <- all_X_combs[, 1:x1]
+    } else {
+      all_combs <- do.call(paste, c(all_X_combs[, 1:x1], sep =""))
+    }
   }
 
   # make all new peptide sequences and convert to data.frame for writing
   if(num_x_site == 2) {
     new_peptide_seq <- data.frame(peptides = paste0(first_part,
-                                                    all_X_combs[, 1],
+                                                    all_combs[, 1],
                                                     middle_part,
-                                                    all_X_combs[, 2],
+                                                    all_combs[, 2],
                                                     last_part))
   } else {
     new_peptide_seq <- data.frame(peptides = paste0(first_part,
-                                                    all_X_combs,
+                                                    all_combs,
                                                     last_part))
   }
 
